@@ -147,6 +147,108 @@
     'https://oatfzyfxjlstmqvavjkc.supabase.co',
     'sb_publishable_J6Nos8oTOzrECXDRhBlLhg_rO43_pQh'
   );
+  
+  async function loadApprovedResources() {
+    const section = document.querySelector('#resources');
+    const heading = section.querySelector('h2');
+
+    // Keep the heading and replace the placeholder content.
+    section.replaceChildren(heading);
+
+    const notice = document.createElement('p');
+    notice.className = 'notice';
+    notice.textContent = 'Loading approved study materials...';
+    section.appendChild(notice);
+
+    try {
+      const { data, error } = await supabaseClient
+        .from('resources')
+        .select('*')
+        .eq('status', 'approved');
+
+      if (error) throw error;
+
+      notice.remove();
+
+      if (!data || data.length === 0) {
+        const empty = document.createElement('p');
+        empty.className = 'notice';
+        empty.textContent =
+          'No approved resources are available yet. Please check again later.';
+        section.appendChild(empty);
+        return;
+      }
+
+      for (const item of data) {
+        const card = document.createElement('div');
+        card.className = 'resource';
+
+        const title = document.createElement('h3');
+        title.textContent =
+          item.title || item.name || 'Study Resource';
+
+        const description = document.createElement('p');
+        description.textContent =
+          item.description || 'Revision material for students.';
+
+        card.append(title, description);
+
+        const path =
+          item.file_path ||
+          item.storage_path ||
+          item.file_url ||
+          item.url;
+
+        if (path) {
+          let fileUrl = null;
+
+          if (/^https?:\/\//i.test(path)) {
+            fileUrl = path;
+          } else {
+            const bucket =
+              item.bucket_name || item.storage_bucket || 'study-resources';
+
+            const cleanPath = path.startsWith(bucket + '/')
+              ? path.slice(bucket.length + 1)
+              : path;
+
+            const { data: file, error: fileError } =
+              await supabaseClient.storage
+                .from(bucket)
+                .createSignedUrl(cleanPath, 3600);
+
+            if (!fileError && file) {
+              fileUrl = file.signedUrl;
+            }
+          }
+
+          if (fileUrl) {
+            const link = document.createElement('a');
+            link.className = 'button';
+            link.href = fileUrl;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.textContent = 'Open / Download Resource';
+            card.appendChild(link);
+          } else {
+            const unavailable = document.createElement('p');
+            unavailable.textContent =
+              'The file link is unavailable. Please contact the platform administrator.';
+            card.appendChild(unavailable);
+          }
+        }
+
+        section.appendChild(card);
+      }
+    } catch (error) {
+      console.error('Resource loading failed:', error);
+      notice.textContent =
+        'We could not load study materials right now. Please try again later.';
+    }
+  }
+
+  loadApprovedResources();
+      
 </script>
 </body>
   </html>
