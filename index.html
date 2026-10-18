@@ -1,762 +1,84 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#102c24">
-  <title>Revise With Ravive Ochieng’</title>
-
-  <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f7f5;
-      color: #20352c;
-      line-height: 1.6;
-    }
-
-    header {
-      background: #102c24;
-      color: white;
-      padding: 26px 16px;
-      text-align: center;
-    }
-
-    header h1 { margin: 0 0 8px; font-size: 27px; }
-    header p { margin: 0; color: #d5e5dc; }
-
-    nav {
-      background: #194738;
-      padding: 14px 8px;
-      text-align: center;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 5px 9px;
-      display: inline-block;
-      font-size: 14px;
-    }
-
-    main {
-      max-width: 850px;
-      margin: 28px auto;
-      padding: 0 15px;
-    }
-
-    .welcome, .resources {
-      background: white;
-      border-radius: 14px;
-      padding: 24px;
-      margin-bottom: 22px;
-      box-shadow: 0 3px 12px #0000000d;
-      overflow-wrap: anywhere;
-    }
-
-    h2, h3 { color: #194738; }
-
-    label {
-      display: block;
-      font-weight: bold;
-      margin-top: 14px;
-    }
-
-    input {
-      display: block;
-      width: 100%;
-      max-width: 100%;
-      padding: 12px;
-      margin-top: 5px;
-      border: 1px solid #b9c9bf;
-      border-radius: 7px;
-      font-size: 16px;
-      background: white;
-    }
-
-    .button {
-      display: inline-block;
-      background: #194738;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 16px;
-      margin: 8px 5px 0 0;
-      text-decoration: none;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .button:disabled {
-      opacity: 0.6;
-      cursor: wait;
-    }
-
-    .notice {
-      background: #edf4ef;
-      padding: 14px;
-      border-radius: 8px;
-      overflow-wrap: anywhere;
-    }
-
-    .resource {
-      border: 1px solid #dce6df;
-      padding: 16px;
-      border-radius: 10px;
-      margin-top: 12px;
-    }
-
-    .message {
-      overflow-wrap: anywhere;
-      font-size: 14px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 24px;
-      color: #63756a;
-      font-size: 13px;
-    }
-
-    [hidden] { display: none !important; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#116149">
+<title>Revise With Ravive Ochieng’</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--g:#116149;--gd:#0b4937;--mint:#eaf5ef;--ink:#1b2b25;--muted:#64736b;--line:#dce7e0;--bg:#f5f8f5;--red:#a72f2f}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Arial,Helvetica,sans-serif}
+header{background:linear-gradient(135deg,var(--gd),var(--g));color:#fff;padding:25px 16px}
+.wrap{max-width:1100px;margin:auto;padding:0 16px}
+.brand{font-size:clamp(1.5rem,4vw,2.25rem);font-weight:800;line-height:1.2;margin:0}
+.tagline{margin:8px 0 0;color:#e0f2e8}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+nav a{color:#fff;text-decoration:none;padding:8px 12px;border:1px solid #ffffff55;border-radius:9px}
+nav a:hover{background:#ffffff1c}
+main{padding:22px 0 42px}
+.hero,.panel{background:#fff;border:1px solid var(--line);border-radius:15px;padding:22px;margin-bottom:20px}
+.hero{box-shadow:0 5px 20px #12351b08}
+.hero h2{margin:0 0 8px}
+.hero p,.muted{color:var(--muted)}
+.panel h2,.panel h3{margin-top:0;color:var(--gd)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+label{display:block;font-weight:700;font-size:.92rem;margin:12px 0 5px}
+input,select,textarea{font:inherit;width:100%;padding:11px 12px;border:1px solid #cbd9d0;border-radius:9px;background:#fff;color:var(--ink)}
+textarea{min-height:80px;resize:vertical}
+button,.button{border:0;border-radius:9px;background:var(--g);color:#fff;padding:11px 15px;font:inherit;font-weight:700;cursor:pointer;display:inline-block;margin-top:12px;text-decoration:none}
+button:hover,.button:hover{background:var(--gd)}
+button.secondary{background:#e7efe9;color:var(--gd)}
+button.danger{background:var(--red)}
+button:disabled{opacity:.6;cursor:wait}
+.hint,.small{font-size:.88rem;color:var(--muted)}
+.status{padding:11px 13px;border-radius:9px;background:var(--mint);margin:12px 0;overflow-wrap:anywhere}
+.status.error{background:#fff0f0;color:#8b2424}
+.hidden{display:none!important}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.section-title h2{margin-bottom:8px}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px;margin-top:12px}
+.resource{border:1px solid var(--line);border-radius:12px;padding:15px;background:#fff;min-width:0}
+.resource h3{font-size:1.05rem;margin:0 0 7px;overflow-wrap:anywhere}
+.resource p{margin:6px 0;overflow-wrap:anywhere}
+.resource a{color:var(--g);font-weight:700}
+.pill{display:inline-block;background:var(--mint);color:var(--gd);font-size:.78rem;font-weight:700;padding:3px 8px;border-radius:30px;margin:3px 4px 5px 0}
+.year-block{border-top:1px solid var(--line);padding-top:15px;margin-top:18px}
+.year-block h3{margin-bottom:8px}
+.browse-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:9px}
+.browse-grid button{margin:0;width:100%;padding:10px 8px}
+.browse-grid button span{display:block;font-size:.78rem;font-weight:400;opacity:.9}
+.empty{color:var(--muted);padding:18px;border:1px dashed #cbd9d0;border-radius:10px;text-align:center}
+.row-buttons{display:flex;gap:8px;flex-wrap:wrap}
+.row-buttons button{margin-top:6px}
+footer{background:#eaf1ec;color:#53635a;padding:22px 16px;text-align:center;font-size:.9rem}
+@media(max-width:520px){.hero,.panel{padding:16px}header{padding-top:20px}nav a{font-size:.86rem;padding:7px 9px}}
+</style>
 </head>
-
 <body>
-  <header>
-    <h1>Revise With Ravive Ochieng’</h1>
-    <p>Learn. Revise. Understand. Excel.</p>
-  </header>
 
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#resources">Study Materials</a>
-    <a href="#contribute">Upload Materials</a>
-    <a href="#about">About</a>
-  </nav>
-
-  <main>
-    <section class="welcome" id="home">
-      <h2>Your Learning, One Place</h2>
-      <p>
-        Welcome to Revise With Ravive Ochieng’, a learning
-        resource platform designed to support students in the
-        Kenyatta University School of Education.
-      </p>
-      <p>
-        Discover revision materials, notes, past papers and
-        academic resources in one convenient place.
-      </p>
-      <a class="button" href="#resources">Explore Resources</a>
-    </section>
-
-    <section class="resources" id="resources">
-      <h2>Study Materials</h2>
-      <p class="notice" id="resources-message">
-        Loading approved study materials...
-      </p>
-      <div id="resource-list"></div>
-    </section>
-
-    <section class="resources" id="contribute">
-      <h2>Account & Resource Upload</h2>
-      <p>
-        Create an account or sign in to submit PDF study materials
-        for review. Submitted materials will not appear publicly
-        until approved.
-      </p>
-
-      <label for="account-email">Email address</label>
-      <input
-        id="account-email"
-        type="email"
-        autocomplete="email"
-        placeholder="Enter your email"
-        required
-      >
-
-      <label for="account-password">Password</label>
-      <input
-        id="account-password"
-        type="password"
-        autocomplete="current-password"
-        minlength="6"
-        placeholder="At least 6 characters"
-        required
-      >
-
-      <button class="button" type="button" id="sign-in">
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#102c24">
-  <title>Revise With Ravive Ochieng’</title>
-
-  <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f7f5;
-      color: #20352c;
-      line-height: 1.6;
-    }
-
-    header {
-      background: #102c24;
-      color: white;
-      padding: 26px 16px;
-      text-align: center;
-    }
-
-    header h1 { margin: 0 0 8px; font-size: 27px; }
-    header p { margin: 0; color: #d5e5dc; }
-
-    nav {
-      background: #194738;
-      padding: 14px 8px;
-      text-align: center;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 5px 9px;
-      display: inline-block;
-      font-size: 14px;
-    }
-
-    main {
-      max-width: 850px;
-      margin: 28px auto;
-      padding: 0 15px;
-    }
-
-    .welcome, .resources {
-      background: white;
-      border-radius: 14px;
-      padding: 24px;
-      margin-bottom: 22px;
-      box-shadow: 0 3px 12px #0000000d;
-      overflow-wrap: anywhere;
-    }
-
-    h2, h3 { color: #194738; }
-
-    label {
-      display: block;
-      font-weight: bold;
-      margin-top: 14px;
-    }
-
-    input {
-      display: block;
-      width: 100%;
-      max-width: 100%;
-      padding: 12px;
-      margin-top: 5px;
-      border: 1px solid #b9c9bf;
-      border-radius: 7px;
-      font-size: 16px;
-      background: white;
-    }
-
-    .button {
-      display: inline-block;
-      background: #194738;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 16px;
-      margin: 8px 5px 0 0;
-      text-decoration: none;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .button:disabled {
-      opacity: 0.6;
-      cursor: wait;
-    }
-
-    .notice {
-      background: #edf4ef;
-      padding: 14px;
-      border-radius: 8px;
-      overflow-wrap: anywhere;
-    }
-
-    .resource {
-      border: 1px solid #dce6df;
-      padding: 16px;
-      border-radius: 10px;
-      margin-top: 12px;
-    }
-
-    .message {
-      overflow-wrap: anywhere;
-      font-size: 14px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 24px;
-      color: #63756a;
-      font-size: 13px;
-    }
-
-    [hidden] { display: none !important; }
-  </style>
-</head>
-
-<body>
-  <header>
-    <h1>Revise With Ravive Ochieng’</h1>
-    <p>Learn. Revise. Understand. Excel.</p>
-  </header>
-
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#resources">Study Materials</a>
-    <a href="#contribute">Upload Materials</a>
-    <a href="#about">About</a>
-  </nav>
-
-  <main>
-    <section class="welcome" id="home">
-      <h2>Your Learning, One Place</h2>
-      <p>
-        Welcome to Revise With Ravive Ochieng’, a learning
-        resource platform designed to support students in the
-        Kenyatta University School of Education.
-      </p>
-      <p>
-        Discover revision materials, notes, past papers and
-        academic resources in one convenient place.
-      </p>
-      <a class="button" href="#resources">Explore Resources</a>
-    </section>
-
-    <section class="resources" id="resources">
-      <h2>Study Materials</h2>
-      <p class="notice" id="resources-message">
-        Loading approved study materials...
-      </p>
-      <div id="resource-list"></div>
-    </section>
-
-    <section class="resources" id="contribute">
-      <h2>Account & Resource Upload</h2>
-      <p>
-        Create an account or sign in to submit PDF study materials
-        for review. Submitted materials will not appear publicly
-        until approved.
-      </p>
-
-      <label for="account-email">Email address</label>
-      <input
-        id="account-email"
-        type="email"
-        autocomplete="email"
-        placeholder="Enter your email"
-        required
-      >
-
-      <label for="account-password">Password</label>
-      <input
-        id="account-password"
-        type="password"
-        autocomplete="current-password"
-        minlength="6"
-        placeholder="At least 6 characters"
-        required
-      >
-
-      <button class="button" type="button" id="sign-in">
-        Sign In
-      </button>
-
-      <button class="button" type="button" id="sign-up">
-        Create Account
-      </button>
-
-      <button class="button" type="button" id="sign-out" hidden>
-        Sign Out
-      </button>
-
-      <p class="message" id="account-message" role="status"></p>
-
-      <hr>
-
-      <form id="upload-form" hidden>
-        <h3>Submit a Study Resource</h3>
-
-        <label for="resource-title">Resource title</label>
-        <input
-          id="resource-title"
-          type="text"
-          maxlength="150"
-          placeholder="e.g. AEN 340 Revision Notes"
-          required
-        >
-
-        <label for="resource-description">Description</label>
-        <input
-          id="resource-description"
-          type="text"
-          maxlength="500"
-          placeholder="Brief description"
-        >
-
-        <label for="resource-file">Select a PDF file (maximum 10 MB)</label>
-        <input
-          id="resource-file"
-          type="file"
-          accept=".pdf,application/pdf"
-          required
-        >
-
-        <button class="button" id="upload-button" type="submit">
-          Submit for Approval
-        </button>
-      </form>
-
-      <p class="message" id="upload-message" role="status"></p>
-    </section>
-
-    <section class="resources" id="about">
-      <h2>About the Platform</h2>
-      <p>
-        Revise With Ravive Ochieng’ aims to make academic
-        resources easier to organise, discover and access.
-        Students can contribute materials for review, while
-        approved resources are made available to learners.
-      </p>
-      <p>
-        This is an independent student learning resource platform.
-      </p>
-    </section>
-  </main>
-
-  <footer>
-    <p>Revise With Ravive Ochieng’</p>
-    <p>Learn. Revise. Understand. Excel.</p>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script>
-    const SUPABASE_URL =
-      'https://oatfzyfxjlstmqvavjkc.supabase.co';
-
-    const SUPABASE_PUBLISHABLE_KEY =
-      'sb_publishable_J6Nos8oTOzrECXDRhBlLhg_rO43_pQh';
-
-    const supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
-
-    const emailInput = document.getElementById('account-email');
-    const passwordInput = document.getElementById('account-password');
-    const signInButton = document.getElementById('sign-in');
-    const signUpButton = document.getElementById('sign-up');
-    const signOutButton = document.getElementById('sign-out');
-    const accountMessage = document.getElementById('account-message');
-    const uploadForm = document.getElementById('upload-form');
-    const uploadButton = document.getElementById('upload-button');
-    const uploadMessage = document.getElementById('upload-message');
-    const resourceList = document.getElementById('resource-list');
-    const resourcesMessage = document.getElementById('resources-message');
-
-    function showAccountMessage(message) {
-      accountMessage.textContent = message;
-    }
-
-    function showUploadMessage(message) {
-      uploadMessage.textContent = message;
-    }
-
-    function getCredentials() {
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
-
-      if (!email || !emailInput.checkValidity()) {
-        showAccountMessage('Please enter a valid email address.');
-        return null;
-      }
-
-      if (password.length < 6) {
-        showAccountMessage('Your password must have at least 6 characters.');
-        return null;
-      }
-
-      return { email, password };
-    }
-
-    async function refreshAccount() {
-      const { data, error } = await supabaseClient.auth.getUser();
-
-      if (error) {
-        console.error('Account check:', error.message);
-      }
-
-      const user = data?.user || null;
-
-      uploadForm.hidden = !user;
-      signInButton.hidden = !!user;
-      signUpButton.hidden = !!user;
-      signOutButton.hidden = !user;
-
-      if (user) {
-        showAccountMessage('Signed in as ' + user.email + '. You can submit a PDF.');
-      } else {
-        showAccountMessage('Please sign in to submit study materials.');
-      }
-    }
-
-    signUpButton.addEventListener('click', async () => {
-      const credentials = getCredentials();
-      if (!credentials) return;
-
-      signUpButton.disabled = true;
-      showAccountMessage('Creating your account...');
-
-      try {
-        const { data, error } = await supabaseClient.auth.signUp(credentials);
-
-        if (error) throw error;
-
-        if (data.session) {
-          showAccountMessage('Account created. You are now signed in.');
-          await refreshAccount();
-        } else {
-          showAccountMessage(
-            'Registration submitted. Check your email for a confirmation link, then sign in.'
-          );
-        }
-      } catch (error) {
-        showAccountMessage('Could not create account: ' + error.message);
-      } finally {
-        signUpButton.disabled = false;
-      }
-    });
-
-    signInButton.addEventListener('click', async () => {
-      const credentials = getCredentials();
-      if (!credentials) return;
-
-      signInButton.disabled = true;
-      showAccountMessage('Signing in...');
-
-      try {
-        const { error } = await supabaseClient.auth.signInWithPassword(
-          credentials
-        );
-
-        if (error) throw error;
-
-        await refreshAccount();
-        showUploadMessage('');
-      } catch (error) {
-        showAccountMessage('Sign-in failed: ' + error.message);
-      } finally {
-        signInButton.disabled = false;
-      }
-    });
-
-    signOutButton.addEventListener('click', async () => {
-      signOutButton.disabled = true;
-
-      try {
-        const { error } = await supabaseClient.auth.signOut();
-        if (error) throw error;
-
-        uploadForm.reset();
-        showUploadMessage('You have signed out.');
-        await refreshAccount();
-      } catch (error) {
-        showAccountMessage('Sign-out failed: ' + error.message);
-      } finally {
-        signOutButton.disabled = false;
-      }
-    });
-
-    uploadForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-
-      const { data: userData, error: userError } =
-        await supabaseClient.auth.getUser();
-
-      if (userError || !userData.user) {
-        showUploadMessage('Please sign in before submitting a resource.');
-        await refreshAccount();
-        return;
-      }
-
-      const user = userData.user;
-      const title = document.getElementById('resource-title').value.trim();
-      const description =
-        document.getElementById('resource-description').value.trim();
-      const file = document.getElementById('resource-file').files[0];
-
-      if (!title) {
-        showUploadMessage('Please enter a resource title.');
-        return;
-      }
-
-      if (!file) {
-        showUploadMessage('Please select a PDF file.');
-        return;
-      }
-
-      if (
-        file.type !== 'application/pdf' &&
-        !file.name.toLowerCase().endsWith('.pdf')
-      ) {
-        showUploadMessage('Only PDF files are accepted.');
-        return;
-      }
-
-      if (file.size > 10 * 1024 * 1024) {
-        showUploadMessage('The PDF is too large. Maximum size is 10 MB.');
-        return;
-      }
-
-      uploadButton.disabled = true;
-      showUploadMessage('Uploading your PDF...');
-
-      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-      const path = user.id + '/' + Date.now() + '-' + safeName;
-
-      let uploaded = false;
-
-      try {
-        const { error: storageError } = await supabaseClient.storage
-          .from('study-resources')
-          .upload(path, file, {
-            contentType: 'application/pdf',
-            upsert: false
-          });
-
-        if (storageError) throw storageError;
-        uploaded = true;
-
-        const { error: databaseError } = await supabaseClient
-          .from('resources')
-          .insert({
-            title: title,
-            description: description || null,
-            file_path: path,
-            status: 'pending',
-            user_id: user.id
-          });
-
-        if (databaseError) throw databaseError;
-
-        uploadForm.reset();
-        showUploadMessage(
-          'Submission successful! Your PDF is awaiting approval.'
-        );
-      } catch (error) {
-        console.error('Submission failed:', error);
-
-        if (uploaded) {
-          const { error: cleanupError } = await supabaseClient.storage
-            .from('study-resources')
-            .remove([path]);
-
-          if (cleanupError) {
-            console.error('File cleanup failed:', cleanupError.message);
-          }
-        }
-
-        showUploadMessage(
-          'Submission failed: ' + error.message +
-          '. Check the Supabase table, storage policies and upload policies.'
-        );
-      } finally {
-        uploadButton.disabled = false;
-      }
-    });
-
-    async function loadApprovedResources() {
-      resourcesMessage.textContent = 'Loading approved study materials...';
-      resourceList.replaceChildren();
-
-      try {
-        const { data, error } = await supabaseClient
-          .from('resources')
-          .select('id, title, description, file_path, status')
-          .eq('status', 'approved')
-          .order('title', { ascending: true });
-
-        if (error) throw error;
-
-        if (!data || data.length === 0) {
-          resourcesMessage.textContent =
-            'No approved resources are available yet. Please check again later.';
-          return;
-        }
-
-        resourcesMessage.textContent = '';
-
-        for (const item of data) {
-          const card = document.createElement('article');
-          card.className = 'resource';
-
-          const title = document.createElement('h3');
-          title.textContent = item.title || 'Study Resource';
-
-          const description = document.createElement('p');
-          description.textContent =
-            item.description || 'Revision material for students.';
-
-          card.append(title, description);
-
-          if (item.file_path) {
-            const { data: fileData, error: fileError } =
-              await supabaseClient.storage
-                .from('study-resources')
-                .createSignedUrl(item.file_path, 3600);
-
-            if (!fileError && fileData?.signedUrl) {
-              const link = document.createElement('a');
-              link.className = 'button';
-              link.href = fileData.signedUrl;
-              link.target = '_blank';
-              link.rel = 'noopener noreferrer';
-              link.textContent = 'Open / Download PDF';
-              card.appendChild(link);
-            } else {
-              const unavailable = document.createElement('p');
-              unavailable.textContent =
-                'The file is not currently accessible.';
-              card.appendChild(unavailable);
-            }
-          }
-
-          resourceList.appendChild(card);
-        }
-      } catch (error) {
-        console.error('Resource loading failed:', error);
-        resourcesMessage.textContent =
-          'We could not load study materials. Please check the Supabase connection and database policies.';
-      }
-    }
-
-    supabaseClient.auth.onAuthStateChange(() => {
-      refreshAccount();
-    });
-
-    refreshAccount();
-    loadApprovedResources();
-  </script>
-</body>
-</html>
+<header>
+<div class="wrap">
+<h1 class="brand">Revise With Ravive Ochieng’</h1>
+<p class="tagline">A learning and revision hub for Kenyatta University School of Education.</p>
+<nav>
+<a href="#home">Home</a>
+<a href="#materials">Study Materials</a>
+<a href="#upload">Upload Materials</a>
+<a href="#admin" id="adminNav" class="hidden">Admin Approval</a>
+<a href="#about">About</a>
+</nav>
+</div>
+</header>
+
+<main class="wrap">
+
+<section class="hero" id="home">
+<h2>Learn. Revise. Progress.</h2>
+<p>Find lecture notes, past papers, suggested answers and revision guides arranged by academic year, semester, unit category and material type.</p>
+</section>
+
+<section class="panel" id="account
