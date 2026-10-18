@@ -48,9 +48,6 @@ button:disabled{opacity:.6;cursor:wait}
 .pill{display:inline-block;background:var(--mint);color:var(--gd);font-size:.78rem;font-weight:700;padding:3px 8px;border-radius:30px;margin:3px 4px 5px 0}
 .year-block{border-top:1px solid var(--line);padding-top:15px;margin-top:18px}
 .year-block h3{margin-bottom:8px}
-.browse-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:9px}
-.browse-grid button{margin:0;width:100%;padding:10px 8px}
-.browse-grid button span{display:block;font-size:.78rem;font-weight:400;opacity:.9}
 .empty{color:var(--muted);padding:18px;border:1px dashed #cbd9d0;border-radius:10px;text-align:center}
 .row-buttons{display:flex;gap:8px;flex-wrap:wrap}
 .row-buttons button{margin-top:6px}
@@ -59,472 +56,628 @@ footer{background:#eaf1ec;color:#53635a;padding:22px 16px;text-align:center;font
 </style>
 </head>
 <body>
-
 <header>
-<div class="wrap">
-<h1 class="brand">Revise With Ravive Ochieng’</h1>
-<p class="tagline">A learning and revision hub for Kenyatta University School of Education.</p>
-<nav>
-<a href="#home">Home</a>
-<a href="#materials">Study Materials</a>
-<a href="#upload">Upload Materials</a>
-<a href="#admin" id="adminNav" class="hidden">Admin Approval</a>
-<a href="#about">About</a>
-</nav>
-</div>
+  <div class="wrap">
+    <h1 class="brand">Revise With Ravive Ochieng’</h1>
+    <p class="tagline">A learning and revision hub for Kenyatta University School of Education.</p>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#materials">Browse Study Materials</a>
+      <a href="#account">Sign in</a>
+      <a href="#upload">Contribute Materials</a>
+      <a href="#admin" id="adminNav" class="hidden">Admin Approval</a>
+      <a href="#about">About</a>
+    </nav>
+  </div>
 </header>
 
 <main class="wrap">
-
 <section class="hero" id="home">
-<h2>Learn. Revise. Progress.</h2>
-<p>Find lecture notes, past papers, suggested answers and revision guides arranged by academic year, semester, unit category and material type.</p>
-</section>
-
-<section class="panel" id="account">
-<div class="section-title">
-<h2>Your account</h2>
-<span id="accountState" class="pill">Not signed in</span>
-</div>
-<p class="muted">Sign in to upload materials. Every new submission waits for approval before it is shown to students.</p>
-
-<div id="authForms" class="grid">
-<form id="signInForm">
-<h3>Sign in</h3>
-<label for="signInEmail">Email address</label>
-<input id="signInEmail" type="email" autocomplete="email" required>
-<label for="signInPassword">Password</label>
-<input id="signInPassword" type="password" autocomplete="current-password" required>
-<button type="submit">Sign in</button>
-</form>
-
-<form id="signUpForm">
-<h3>Create an account</h3>
-<label for="signUpEmail">Email address</label>
-<input id="signUpEmail" type="email" autocomplete="email" required>
-<label for="signUpPassword">Create password</label>
-<input id="signUpPassword" type="password" minlength="6" autocomplete="new-password" required>
-<p class="hint">Use at least 6 characters. If email confirmation is enabled, confirm your email before signing in.</p>
-<button type="submit">Create account</button>
-</form>
-</div>
-
-<div id="signedInBox" class="hidden">
-<p id="signedInEmail"></p>
-<button id="signOutButton" class="secondary" type="button">Sign out</button>
-</div>
-<div id="authMessage" class="status hidden" role="status"></div>
-</section>
-
-<section class="panel" id="upload">
-<h2>Upload study materials</h2>
-<p class="muted">PDF files only, maximum 10 MB. Upload only materials you have permission to share.</p>
-<div id="uploadMessage" class="status hidden" role="status"></div>
-
-<form id="uploadForm">
-<div class="grid">
-<div>
-<label for="academicYear">Academic year</label>
-<select id="academicYear" required>
-<option value="">Choose year</option>
-<option>Year One</option>
-<option>Year Two</option>
-<option>Year Three</option>
-<option>Year Four</option>
-<option>Common Units</option>
-</select>
-</div>
-
-<div>
-<label for="semester">Semester</label>
-<select id="semester" required>
-<option value="">Choose semester</option>
-<option>1.1</option>
-<option>1.2</option>
-<option>2.1</option>
-<option>2.2</option>
-<option>3.1</option>
-<option>3.2</option>
-<option>4.1</option>
-<option>4.2</option>
-<option>Cross-year</option>
-</select>
-</div>
-
-<div>
-<label for="unitCategory">Unit category</label>
-<select id="unitCategory" required>
-<option value="">Choose category</option>
-<option>Core Units</option>
-<option>Common Units</option>
-</select>
-</div>
-
-<div>
-<label for="resourceType">Material type</label>
-<select id="resourceType" required>
-<option value="">Choose type</option>
-<option>Lecture Notes</option>
-<option>Past Papers</option>
-<option>Suggested Answers</option>
-<option>Revision Guide</option>
-<option>Other</option>
-</select>
-</div>
-</div>
-
-<label for="courseCode">Unit code (e.g. AEN 340)</label>
-<input id="courseCode" type="text" maxlength="40" placeholder="Enter unit code">
-
-<label for="resourceTitle">Material title</label>
-<input id="resourceTitle" type="text" maxlength="150" required placeholder="e.g. AEN 340 Past Paper Questions and Answers">
-
-<label for="resourceDescription">Description (optional)</label>
-<textarea id="resourceDescription" maxlength="1000" placeholder="Briefly describe the document"></textarea>
-
-<label for="pdfFile">Choose PDF</label>
-<input id="pdfFile" type="file" accept="application/pdf,.pdf" required>
-
-<button id="uploadButton" type="submit">Sign in to upload</button>
-</form>
-</section>
-
-<section class="panel" id="browse">
-<h2>Browse by level and semester</h2>
-<p class="muted">Choose your year and semester to see the approved materials for that part of your course.</p>
-
-<div class="browse-grid">
-<button type="button" data-browse-year="Year One" data-browse-semester="1.1">Year 1 · Semester 1.1<span>First year, first semester</span></button>
-<button type="button" data-browse-year="Year One" data-browse-semester="1.2">Year 1 · Semester 1.2<span>First year, second semester</span></button>
-<button type="button" data-browse-year="Year Two" data-browse-semester="2.1">Year 2 · Semester 2.1<span>Second year, first semester</span></button>
-<button type="button" data-browse-year="Year Two" data-browse-semester="2.2">Year 2 · Semester 2.2<span>Second year, second semester</span></button>
-<button type="button" data-browse-year="Year Three" data-browse-semester="3.1">Year 3 · Semester 3.1<span>Third year, first semester</span></button>
-<button type="button" data-browse-year="Year Three" data-browse-semester="3.2">Year 3 · Semester 3.2<span>Third year, second semester</span></button>
-<button type="button" data-browse-year="Year Four" data-browse-semester="4.1">Year 4 · Semester 4.1<span>Fourth year, first semester</span></button>
-<button type="button" data-browse-year="Year Four" data-browse-semester="4.2">Year 4 · Semester 4.2<span>Fourth year, second semester</span></button>
-<button type="button" data-browse-year="Common Units" data-browse-semester="">Common Units<span>Units shared across programmes/years</span></button>
-<button type="button" data-browse-year="" data-browse-semester="">Show All Materials<span>Clear level and semester filters</span></button>
-</div>
+  <h2>Your study materials, all in one place.</h2>
+  <p>Browse approved lecture notes, past examination papers, suggested answers and revision guides by academic year, semester, unit and material type. <strong>Students can browse first; an account is only needed for account-specific actions such as contributing materials.</strong></p>
+  <div class="row-buttons">
+    <a class="button" href="#materials">Browse study materials ↓</a>
+    <a class="button" href="#account" style="background:#e7efe9;color:var(--gd)">Sign in / Create account</a>
+  </div>
 </section>
 
 <section class="panel" id="materials">
-<div class="section-title">
-<h2>Study materials</h2>
-<button id="refreshButton" type="button" class="secondary">Refresh materials</button>
-</div>
-<p class="muted">Only approved materials appear here. Filter by year, semester, category or material type.</p>
+  <div class="section-title">
+    <h2>Study materials</h2>
+    <button id="refreshButton" type="button" class="secondary">Refresh materials</button>
+  </div>
+  <p class="muted">Only approved materials appear here. Filter by year, semester, category or material type.</p>
+  <div class="filters">
+    <div><label for="filterYear">Academic year</label><select id="filterYear"><option value="">All years</option><option>Year One</option><option>Year Two</option><option>Year Three</option><option>Year Four</option><option>Common Units</option></select></div>
+    <div><label for="filterSemester">Semester</label><select id="filterSemester"><option value="">All semesters</option><option>1.1</option><option>1.2</option><option>2.1</option><option>2.2</option><option>3.1</option><option>3.2</option><option>4.1</option><option>4.2</option><option>Cross-year</option></select></div>
+    <div><label for="filterCategory">Unit category</label><select id="filterCategory"><option value="">All categories</option><option>Core Units</option><option>Common Units</option></select></div>
+    <div><label for="filterType">Material type</label><select id="filterType"><option value="">All types</option><option>Lecture Notes</option><option>Past Papers</option><option>Suggested Answers</option><option>Revision Guide</option><option>Other</option></select></div>
+  </div>
+  <label for="searchBox">Search unit code, title or description</label>
+  <input id="searchBox" type="search" placeholder="e.g. ECT 212">
+  <div id="materialsMessage" class="status hidden" role="status"></div>
+  <div id="materialsList"><div class="empty">Loading approved materials…</div></div>
+</section>
 
-<div class="filters">
-<div>
-<label for="filterYear">Academic year</label>
-<select id="filterYear">
-<option value="">All years</option>
-<option>Year One</option>
-<option>Year Two</option>
-<option>Year Three</option>
-<option>Year Four</option>
-<option>Common Units</option>
-</select>
-</div>
+<section class="panel" id="account">
+  <div class="section-title"><h2>Your account</h2><span id="accountState" class="pill">Not signed in</span></div>
+  <p class="muted">Sign in to upload materials. Every new submission waits for approval before it is shown to students.</p>
+  <div id="authForms" class="grid">
+    <form id="signInForm">
+      <h3>Sign in</h3>
+      <label for="signInEmail">Email address</label>
+      <input id="signInEmail" type="email" autocomplete="email" required>
+      <label for="signInPassword">Password</label>
+      <input id="signInPassword" type="password" autocomplete="current-password" required>
+      <button type="submit">Sign in</button>
+    </form>
+    <form id="signUpForm">
+      <h3>Create an account</h3>
+      <label for="signUpEmail">Email address</label>
+      <input id="signUpEmail" type="email" autocomplete="email" required>
+      <label for="signUpPassword">Create password</label>
+      <input id="signUpPassword" type="password" minlength="6" autocomplete="new-password" required>
+      <p class="hint">Use at least 6 characters. If email confirmation is enabled, confirm your email before signing in.</p>
+      <button type="submit">Create account</button>
+    </form>
+  </div>
+  <div id="signedInBox" class="hidden">
+    <p id="signedInEmail"></p>
+    <button id="signOutButton" class="secondary" type="button">Sign out</button>
+  </div>
+  <div id="authMessage" class="status hidden" role="status"></div>
+</section>
 
-<div>
-<label for="filterSemester">Semester</label>
-<select id="filterSemester">
-<option value="">All semesters</option>
-<option>1.1</option>
-<option>1.2</option>
-<option>2.1</option>
-<option>2.2</option>
-<option>3.1</option>
-<option>3.2</option>
-<option>4.1</option>
-<option>4.2</option>
-<option>Cross-year</option>
-</select>
-</div>
-
-<div>
-<label for="filterCategory">Unit category</label>
-<select id="filterCategory">
-<option value="">All categories</option>
-<option>Core Units</option>
-<option>Common Units</option>
-</select>
-</div>
-
-<div>
-<label for="filterType">Material type</label>
-<select id="filterType">
-<option value="">All types</option>
-<option>Lecture Notes</option>
-<option>Past Papers</option>
-<option>Suggested Answers</option>
-<option>Revision Guide</option>
-<option>Other</option>
-</select>
-</div>
-</div>
-
-<label for="searchBox">Search unit code, title or description</label>
-<input id="searchBox" type="search" placeholder="e.g. ECT 212">
-
-<div id="materialsMessage" class="status hidden" role="status"></div>
-<div id="materialsList">
-<div class="empty">Loading approved materials…</div>
-</div>
+<section class="panel" id="upload">
+  <h2>Contribute study materials</h2>
+  <p class="muted">Help fellow students by sharing useful academic resources. PDF files only, maximum 10 MB; every submission is reviewed before publication.</p>
+  <div id="uploadGuestMessage">
+    <p>You can browse and download approved materials without signing in. To contribute a PDF, please sign in or create a student account first.</p>
+    <a class="button" href="#account">Sign in to contribute</a>
+  </div>
+  <div id="uploadMessage" class="status hidden" role="status"></div>
+  <form id="uploadForm" class="hidden">
+    <div class="grid">
+      <div><label for="academicYear">Academic year</label><select id="academicYear" required><option value="">Choose year</option><option>Year One</option><option>Year Two</option><option>Year Three</option><option>Year Four</option><option>Common Units</option></select></div>
+      <div><label for="semester">Semester</label><select id="semester" required><option value="">Choose semester</option><option>1.1</option><option>1.2</option><option>2.1</option><option>2.2</option><option>3.1</option><option>3.2</option><option>4.1</option><option>4.2</option><option>Cross-year</option></select></div>
+      <div><label for="unitCategory">Unit category</label><select id="unitCategory" required><option value="">Choose category</option><option>Core Units</option><option>Common Units</option></select></div>
+      <div><label for="resourceType">Material type</label><select id="resourceType" required><option value="">Choose type</option><option>Lecture Notes</option><option>Past Papers</option><option>Suggested Answers</option><option>Revision Guide</option><option>Other</option></select></div>
+    </div>
+    <label for="courseCode">Unit code (e.g. AEN 340)</label>
+    <input id="courseCode" type="text" maxlength="40" placeholder="Enter unit code">
+    <label for="resourceTitle">Material title</label>
+    <input id="resourceTitle" type="text" maxlength="150" required placeholder="e.g. AEN 340 Past Paper Questions and Answers">
+    <label for="resourceDescription">Description (optional)</label>
+    <textarea id="resourceDescription" maxlength="1000" placeholder="Briefly describe the document"></textarea>
+    <label for="pdfFile">Choose PDF</label>
+    <input id="pdfFile" type="file" accept="application/pdf,.pdf" required>
+    <button id="uploadButton" type="submit">Sign in to upload</button>
+  </form>
 </section>
 
 <section class="panel hidden" id="admin">
-<h2>Administrator approval dashboard</h2>
-<p class="muted">Review pending uploads. Supabase database permissions must also allow only staff/admin to approve or reject materials.</p>
-<div id="adminMessage" class="status hidden" role="status"></div>
-<div id="pendingList"><div class="empty">Loading submissions…</div></div>
+  <h2>Administrator approval dashboard</h2>
+  <p class="muted">Review pending uploads. Supabase database permissions must also allow only staff/admin to approve or reject materials.</p>
+  <div id="adminMessage" class="status hidden" role="status"></div>
+  <div id="pendingList"><div class="empty">Loading submissions…</div></div>
 </section>
 
 <section class="panel" id="about">
-<h2>About this platform</h2>
-<p><strong>Revise With Ravive Ochieng’</strong> is designed to make academic resources easier to find and organise for students in the Kenyatta University School of Education.</p>
-<p class="muted">Respect authors’ rights, verify information with lecturers and report incorrect or inappropriate materials to the platform administrator.</p>
+  <h2>About this platform</h2>
+  <p><strong>Revise With Ravive Ochieng’</strong> is designed to make academic resources easier to find and organise for students in the Kenyatta University School of Education.</p>
+  <p class="muted">Respect authors’ rights, verify information with lecturers and report incorrect or inappropriate materials to the platform administrator.</p>
 </section>
-
 </main>
-
-<footer>
-Revise With Ravive Ochieng’ · Kenyatta University School of Education<br>
-<span class="small">A student learning resource hub. Unapproved uploads are not publicly listed.</span>
-</footer>
-
-<script>
+<footer>Revise With Ravive Ochieng’ · Kenyatta University School of Education<br><span class="small">A student learning resource hub. Unapproved uploads are not publicly listed.</span></footer><script>
 (() => {
- const SUPABASE_URL='https://oatfzyfxjlstmqvavjkc.supabase.co';
- const SUPABASE_ANON_KEY='sb_publishable_J6Nos8oTOzrECXDRhBlLhg_rO43_pQh';
- const BUCKET='study-resources';
- const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+  const SUPABASE_URL = 'https://oatfzyfxjlstmqvavjkc.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_J6Nos8oTOzrECXDRhBlLhg_rO43_pQh';
+  const BUCKET = 'study-resources';
 
- let user=null,role='student',resources=[];
- const $=id=>document.getElementById(id);
+  const db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      }
+    }
+  );
 
- function msg(id,text,error=false){
-   const e=$(id);
-   e.textContent=text;
-   e.classList.remove('hidden');
-   e.classList.toggle('error',error);
- }
- function clear(id){
-   $(id).textContent='';
-   $(id).classList.add('hidden');
-   $(id).classList.remove('error');
- }
- function esc(v){
-   return String(v??'').replace(/[&<>"']/g,c=>({
-     '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-   }[c]));
- }
- function canAdmin(){
-   return role==='admin'||role==='staff';
- }
+  let user = null;
+  let role = 'student';
+  let resources = [];
 
- async function getRole(u){
-   if(!u)return 'student';
-   const {data,error}=await db.from('profiles').select('role').eq('id',u.id).maybeSingle();
-   if(error){console.warn(error.message);return 'student'}
-   return data?.role||'student';
- }
+  const $ = id => document.getElementById(id);
 
- async function refreshAuth(){
-   const {data}=await db.auth.getSession();
-   user=data.session?.user||null;
-   role=await getRole(user);
-   const signed=!!user;
+  function msg(id, text, error = false) {
+    const element = $(id);
+    element.textContent = text;
+    element.classList.remove('hidden');
+    element.classList.toggle('error', error);
+  }
 
-   $('accountState').textContent=signed?(canAdmin()?role:'Signed in'):'Not signed in';
-   $('authForms').classList.toggle('hidden',signed);
-   $('signedInBox').classList.toggle('hidden',!signed);
-   $('signedInEmail').textContent=signed?'Signed in as '+(user.email||'your account'):'';
-   $('adminNav').classList.toggle('hidden',!canAdmin());
-   $('admin').classList.toggle('hidden',!canAdmin());
-   $('uploadButton').disabled=!signed;
-   $('uploadButton').textContent=signed?'Submit for approval':'Sign in to upload';
+  function clear(id) {
+    const element = $(id);
+    element.textContent = '';
+    element.classList.add('hidden');
+    element.classList.remove('error');
+  }
 
-   if(canAdmin())await loadPending();
-   else $('pendingList').innerHTML='';
- }
+  function esc(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[char]));
+  }
 
- $('signInForm').addEventListener('submit',async e=>{
-   e.preventDefault();
-   clear('authMessage');
-   const {error}=await db.auth.signInWithPassword({
-     email:$('signInEmail').value.trim(),
-     password:$('signInPassword').value
-   });
-   if(error)return msg('authMessage',error.message,true);
-   msg('authMessage','You are signed in.');
-   await refreshAuth();
- });
+  function canAdmin() {
+    return role === 'admin' || role === 'staff';
+  }
 
- $('signUpForm').addEventListener('submit',async e=>{
-   e.preventDefault();
-   clear('authMessage');
-   const {data,error}=await db.auth.signUp({
-     email:$('signUpEmail').value.trim(),
-     password:$('signUpPassword').value
-   });
-   if(error)return msg('authMessage',error.message,true);
+  async function getRole(currentUser) {
+    if (!currentUser) return 'student';
 
-   if(data.session){
-     msg('authMessage','Account created and signed in.');
-     await refreshAuth();
-   }else{
-     msg('authMessage','Account request submitted. If email confirmation is enabled, confirm your email before signing in. If no email arrives, check Supabase Authentication email settings.');
-   }
- });
+    const { data, error } = await db
+      .from('profiles')
+      .select('role')
+      .eq('id', currentUser.id)
+      .maybeSingle();
 
- $('signOutButton').addEventListener('click',async()=>{
-   const {error}=await db.auth.signOut();
-   if(error)msg('authMessage',error.message,true);
-   else{
-     msg('authMessage','You have signed out.');
-     await refreshAuth();
-   }
- });
+    if (error) {
+      console.warn(error.message);
+      return 'student';
+    }
 
- db.auth.onAuthStateChange(()=>setTimeout(()=>refreshAuth(),0));
+    return data?.role || 'student';
+  }
 
- $('uploadForm').addEventListener('submit',async e=>{
-   e.preventDefault();
-   clear('uploadMessage');
+  async function refreshAuth(session = null) {
+    if (!session) {
+      const { data, error } = await db.auth.getSession();
 
-   if(!user)return msg('uploadMessage','Please sign in before uploading.',true);
+      if (error) {
+        console.warn('Could not restore session:', error.message);
+      }
 
-   const f=$('pdfFile').files[0];
-   if(!f)return msg('uploadMessage','Please choose a PDF file.',true);
-   if(f.type!=='application/pdf'&&!f.name.toLowerCase().endsWith('.pdf'))
-     return msg('uploadMessage','Only PDF files are allowed.',true);
-   if(f.size>10*1024*1024)
-     return msg('uploadMessage','The PDF is larger than 10 MB. Choose a smaller file.',true);
+      session = data?.session || null;
+    }
 
-   const b=$('uploadButton');
-   b.disabled=true;
-   b.textContent='Uploading…';
-   let path='';
+    user = session?.user || null;
+    role = await getRole(user);
 
-   try{
-     path=user.id+'/'+Date.now()+'_'+f.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    const signed = !!user;
 
-     const {error:upErr}=await db.storage.from(BUCKET).upload(path,f,{
-       contentType:'application/pdf',
-       upsert:false
-     });
-     if(upErr)throw upErr;
+    $('accountState').textContent = signed
+      ? (canAdmin() ? role : 'Signed in')
+      : 'Not signed in';
 
-     const row={
-       title:$('resourceTitle').value.trim(),
-       description:$('resourceDescription').value.trim()||null,
-       file_path:path,
-       status:'pending',
-       user_id:user.id,
-       uploaded_by:user.id,
-       course_code:$('courseCode').value.trim()||null,
-       academic_year:$('academicYear').value,
-       semester:$('semester').value,
-       unit_category:$('unitCategory').value,
-       resource_type:$('resourceType').value
-     };
+    $('authForms').classList.toggle('hidden', signed);
+    $('signedInBox').classList.toggle('hidden', !signed);
 
-     const {error:dbErr}=await db.from('resources').insert(row);
-     if(dbErr){
-       await db.storage.from(BUCKET).remove([path]);
-       throw dbErr;
-     }
+    $('signedInEmail').textContent = signed
+      ? 'Signed in as ' + (user.email || 'your account')
+      : '';
 
-     $('uploadForm').reset();
-     msg('uploadMessage','Submission successful! Your PDF is awaiting approval. It will appear in Study Materials after an administrator approves it.');
-     if(canAdmin())await loadPending();
+    $('adminNav').classList.toggle('hidden', !canAdmin());
+    $('admin').classList.toggle('hidden', !canAdmin());
 
-   }catch(err){
-     msg('uploadMessage','Upload failed: '+(err?.message||'Please try again.'),true);
-   }finally{
-     b.disabled=!user;
-     b.textContent=user?'Submit for approval':'Sign in to upload';
-   }
- });
+    $('uploadForm').classList.toggle('hidden', !signed);
+    $('uploadGuestMessage').classList.toggle('hidden', signed);
 
- async function loadApproved(){
-   const c=$('materialsList');
-   c.innerHTML='<div class="empty">Loading approved materials…</div>';
+    $('uploadButton').disabled = !signed;
+    $('uploadButton').textContent = 'Submit for approval';
 
-   const {data,error}=await db.from('resources')
-     .select('id,title,description,file_path,status,course_code,academic_year,semester,unit_category,resource_type')
-     .eq('status','approved')
-     .order('title');
+    if (canAdmin()) {
+      await loadPending();
+    } else {
+      $('pendingList').innerHTML = '';
+    }
+  }
 
-   if(error){
-     c.innerHTML='';
-     return msg('materialsMessage','Could not load materials: '+error.message,true);
-   }
+  $('signInForm').addEventListener('submit', async event => {
+    event.preventDefault();
+    clear('authMessage');
 
-   clear('materialsMessage');
-   resources=data||[];
-   await renderMaterials();
- }
+    const { error } = await db.auth.signInWithPassword({
+      email: $('signInEmail').value.trim(),
+      password: $('signInPassword').value
+    });
 
- function filtered(){
-   const y=$('filterYear').value;
-   const s=$('filterSemester').value;
-   const c=$('filterCategory').value;
-   const t=$('filterType').value;
-   const q=$('searchBox').value.trim().toLowerCase();
+    if (error) {
+      return msg('authMessage', error.message, true);
+    }
 
-   return resources.filter(r=>
-     (!y||r.academic_year===y)&&
-     (!s||r.semester===s)&&
-     (!c||r.unit_category===c)&&
-     (!t||r.resource_type===t)&&
-     (!q||[
-       r.title,r.description,r.course_code,r.academic_year,
-       r.semester,r.unit_category,r.resource_type
-     ].join(' ').toLowerCase().includes(q))
-   );
- }
+    msg('authMessage', 'You are signed in.');
+    await refreshAuth();
+  });
 
- async function card(r){
-   let url='';
-   if(r.file_path){
-     const {data}=await db.storage.from(BUCKET).createSignedUrl(r.file_path,3600);
-     url=data?.signedUrl||'';
-   }
+  $('signUpForm').addEventListener('submit', async event => {
+    event.preventDefault();
+    clear('authMessage');
 
-   const tags=[
-     r.academic_year,
-     r.semester?'Semester '+r.semester:'',
-     r.unit_category,
-     r.resource_type
-   ].filter(Boolean);
+    const { data, error } = await db.auth.signUp({
+      email: $('signUpEmail').value.trim(),
+      password: $('signUpPassword').value
+    });
 
-   return `<article class="resource">
-     <h3>${esc(r.title)}</h3>
-     ${r.course_code?`<span class="pill">${esc(r.course_code)}</span>`:''}
-     ${tags.map(x=>`<span class="pill">${esc(x)}</span>`).join('')}
-     <p>${esc(r.description||'No description provided.')}</p>
-     ${url?`<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">Open / download PDF ↗</a>`:'<p class="muted">File link unavailable. Refresh or contact the administrator.</p>'}
-   </article>`;
- }
+    if (error) {
+      return msg('authMessage', error.message, true);
+    }
 
- async function renderMaterials(){
-   const c=$('materialsList');
-   const list=filtered();
+    if (data.session) {
+      msg('authMessage', 'Account created and signed in.');
+      await refreshAuth();
+    } else {
+      msg(
+        'authMessage',
+        'Account request submitted. If email confirmation is enabled, confirm your email before signing in. If no email arrives, check Supabase Authentication email settings.'
+      );
+    }
+  });
 
-   if(!list.length){
-     c.innerHTML='<div class="empty">No approved materials match these filters yet. Try another semester or search term.</div>';
-     return;
-   }
+  $('signOutButton').addEventListener('click', async () => {
+    const { error } = await db.auth.signOut();
 
-   c.innerHTML='';
+    if (error) {
+      msg('authMessage', error.message, true);
+    } else {
+      msg('authMessage', 'You have signed out.');
+      await refreshAuth();
+    }
+  });
 
-   const groups=[
-     ['Common Units',r=>r.unit_category==='Common Units'||r.academic_year==='Common Units'],
-     ['Year One',r=>r.academic_year==='Year One'],
-     ['Year Two',r=>r.academic_year==='Year Two'],
-     ['Year Three',r=>r.academic_year==='Year Three'],
-     ['Year Four',r=>r.academic_year==='Year Four'],
-     ['Other / not categori
+  db.auth.onAuthStateChange((_event, session) => {
+    setTimeout(() => refreshAuth(session), 0);
+  });
+
+  $('uploadForm').addEventListener('submit', async event => {
+    event.preventDefault();
+    clear('uploadMessage');
+
+    if (!user) {
+      return msg('uploadMessage', 'Please sign in before uploading.', true);
+    }
+
+    const file = $('pdfFile').files[0];
+
+    if (!file) {
+      return msg('uploadMessage', 'Please choose a PDF file.', true);
+    }
+
+    if (
+      file.type !== 'application/pdf' &&
+      !file.name.toLowerCase().endsWith('.pdf')
+    ) {
+      return msg('uploadMessage', 'Only PDF files are allowed.', true);
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      return msg(
+        'uploadMessage',
+        'The PDF is larger than 10 MB. Choose a smaller file.',
+        true
+      );
+    }
+
+    const button = $('uploadButton');
+    button.disabled = true;
+    button.textContent = 'Uploading…';
+
+    let path = '';
+
+    try {
+      path = user.id + '/' + Date.now() + '_' +
+        file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+
+      const { error: uploadError } = await db.storage
+        .from(BUCKET)
+        .upload(path, file, {
+          contentType: 'application/pdf',
+          upsert: false
+        });
+
+      if (uploadError) throw uploadError;
+
+      const row = {
+        title: $('resourceTitle').value.trim(),
+        description: $('resourceDescription').value.trim() || null,
+        file_path: path,
+        status: 'pending',
+        user_id: user.id,
+        uploaded_by: user.id,
+        course_code: $('courseCode').value.trim() || null,
+        academic_year: $('academicYear').value,
+        semester: $('semester').value,
+        unit_category: $('unitCategory').value,
+        resource_type: $('resourceType').value
+      };
+
+      const { error: dbError } = await db
+        .from('resources')
+        .insert(row);
+
+      if (dbError) {
+        await db.storage.from(BUCKET).remove([path]);
+        throw dbError;
+      }
+
+      $('uploadForm').reset();
+
+      msg(
+        'uploadMessage',
+        'Submission successful! Your PDF is awaiting approval. It will appear in Study Materials after an administrator approves it.'
+      );
+
+      if (canAdmin()) await loadPending();
+
+    } catch (error) {
+      msg(
+        'uploadMessage',
+        'Upload failed: ' + (error?.message || 'Please try again.'),
+        true
+      );
+    } finally {
+      button.disabled = !user;
+      button.textContent = user
+        ? 'Submit for approval'
+        : 'Sign in to upload';
+    }
+  });
+
+  async function loadApproved() {
+    const container = $('materialsList');
+    container.innerHTML =
+      '<div class="empty">Loading approved materials…</div>';
+
+    const { data, error } = await db
+      .from('resources')
+      .select(
+        'id,title,description,file_path,status,course_code,academic_year,semester,unit_category,resource_type'
+      )
+      .eq('status', 'approved')
+      .order('title');
+
+    if (error) {
+      container.innerHTML = '';
+      return msg(
+        'materialsMessage',
+        'Could not load materials: ' + error.message,
+        true
+      );
+    }
+
+    clear('materialsMessage');
+    resources = data || [];
+
+    await renderMaterials();
+  }
+
+  function filtered() {
+    const year = $('filterYear').value;
+    const semester = $('filterSemester').value;
+    const category = $('filterCategory').value;
+    const type = $('filterType').value;
+    const query = $('searchBox').value.trim().toLowerCase();
+
+    return resources.filter(resource =>
+      (!year || resource.academic_year === year) &&
+      (!semester || resource.semester === semester) &&
+      (!category || resource.unit_category === category) &&
+      (!type || resource.resource_type === type) &&
+      (
+        !query ||
+        [
+          resource.title,
+          resource.description,
+          resource.course_code,
+          resource.academic_year,
+          resource.semester,
+          resource.unit_category,
+          resource.resource_type
+        ].join(' ').toLowerCase().includes(query)
+      )
+    );
+  }
+
+  async function card(resource) {
+    let url = '';
+
+    if (resource.file_path) {
+      const { data } = await db.storage
+        .from(BUCKET)
+        .createSignedUrl(resource.file_path, 3600);
+
+      url = data?.signedUrl || '';
+    }
+
+    const tags = [
+      resource.academic_year,
+      resource.semester ? 'Semester ' + resource.semester : '',
+      resource.unit_category,
+      resource.resource_type
+    ].filter(Boolean);
+
+    return `
+      <article class="resource">
+        <h3>${esc(resource.title)}</h3>
+        ${
+          resource.course_code
+            ? `<span class="pill">${esc(resource.course_code)}</span>`
+            : ''
+        }
+        ${tags.map(tag => `<span class="pill">${esc(tag)}</span>`).join('')}
+        <p>${esc(resource.description || 'No description provided.')}</p>
+        ${
+          url
+            ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">Open / download PDF ↗</a>`
+            : '<p class="muted">File link unavailable. Refresh or contact the administrator.</p>'
+        }
+      </article>
+    `;
+  }
+
+  async function renderMaterials() {
+    const container = $('materialsList');
+    const list = filtered();
+
+    if (!list.length) {
+      container.innerHTML =
+        '<div class="empty">No approved materials match these filters yet. Try another semester or search term.</div>';
+      return;
+    }
+
+    container.innerHTML = '';
+
+    const groups = [
+      ['Common Units', resource =>
+        resource.unit_category === 'Common Units' ||
+        resource.academic_year === 'Common Units'],
+      ['Year One', resource => resource.academic_year === 'Year One'],
+      ['Year Two', resource => resource.academic_year === 'Year Two'],
+      ['Year Three', resource => resource.academic_year === 'Year Three'],
+      ['Year Four', resource => resource.academic_year === 'Year Four'],
+      ['Other / not categorised', resource =>
+        ![
+          'Common Units',
+          'Year One',
+          'Year Two',
+          'Year Three',
+          'Year Four'
+        ].includes(resource.academic_year) &&
+        resource.unit_category !== 'Common Units']
+    ];
+
+    for (const [title, test] of groups) {
+      const items = list.filter(test);
+
+      if (!items.length) continue;
+
+      const section = document.createElement('section');
+      section.className = 'year-block';
+      section.innerHTML =
+        `<h3>${esc(title)}</h3><div class="cards"></div>`;
+
+      for (const resource of items) {
+        section.querySelector('.cards').insertAdjacentHTML(
+          'beforeend',
+          await card(resource)
+        );
+      }
+
+      container.appendChild(section);
+    }
+  }
+
+  ['filterYear', 'filterSemester', 'filterCategory', 'filterType']
+    .forEach(id => $(id).addEventListener('change', renderMaterials));
+
+  $('searchBox').addEventListener('input', renderMaterials);
+  $('refreshButton').addEventListener('click', loadApproved);
+
+  async function loadPending() {
+    if (!canAdmin()) return;
+
+    clear('adminMessage');
+    $('pendingList').innerHTML =
+      '<div class="empty">Loading submissions…</div>';
+
+    const { data, error } = await db
+      .from('resources')
+      .select(
+        'id,title,description,file_path,status,user_id,course_code,academic_year,semester,unit_category,resource_type'
+      )
+      .eq('status', 'pending')
+      .order('title');
+
+    if (error) {
+      $('pendingList').innerHTML = '';
+      return msg(
+        'adminMessage',
+        'Could not load pending submissions. Check the administrator role and database permissions: ' +
+          error.message,
+        true
+      );
+    }
+
+    if (!data?.length) {
+      $('pendingList').innerHTML =
+        '<div class="empty">There are no pending submissions.</div>';
+      return;
+    }
+
+    $('pendingList').innerHTML = '';
+
+    for (const resource of data) {
+      const article = document.createElement('article');
+      article.className = 'resource';
+
+      const detail = [
+        resource.course_code,
+        resource.academic_year,
+        resource.semester ? 'Semester ' + resource.semester : '',
+        resource.unit_category,
+        resource.resource_type
+      ].filter(Boolean).join(' · ');
+
+      article.innerHTML = `
+        <h3>${esc(resource.title)}</h3>
+        <p>${esc(detail)}</p>
+        <p>${esc(resource.description || 'No description provided.')}</p>
+        <p class="small">Uploader ID: ${esc(resource.user_id || 'Not recorded')}</p>
+        <div class="row-buttons">
+          <button type="button" data-status="approved" data-id="${esc(resource.id)}">Approve</button>
+          <button type="button" class="danger" data-status="rejected" data-id="${esc(resource.id)}">Reject</button>
+        </div>
+      `;
+
+      $('pendingList').appendChild(article);
+    }
+  }
+
+  $('pendingList').addEventListener('click', async event => {
+    const button = event.target.closest('button[data-status]');
+
+    if (!button || !canAdmin()) return;
+
+    button.disabled = true;
+
+    const { error } = await db
+      .from('resources')
+      .update({ status: button.dataset.status })
+      .eq('id', button.dataset.id);
+
+    if (error) {
+      button.disabled = false;
+      return msg(
+        'adminMessage',
+        'Could not update submission: ' + error.message,
+        true
+      );
+    }
+
+    msg(
+      'adminMessage',
+      button.dataset.status === 'approved'
+        ? 'Material approved.'
+        : 'Material rejected.'
+    );
+
+    await loadPending();
+    await loadApproved();
+  });
+
+  (async () => {
+    await refreshAuth();
+    await loadApproved();
+  })();
+
+})();
+</script>
+</body>
+</html>
