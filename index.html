@@ -219,9 +219,27 @@ footer{background:#eaf1ec;color:#53635a;padding:22px 16px;text-align:center;font
   function canAdmin() {
     return role === 'admin' || role === 'staff';
   }
+async function getRole(currentUser) {
+  if (!currentUser) return 'student';
 
-  async function getRole(currentUser) {
-    if (!currentUser) return 'student';
+  const { data, error } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', currentUser.id)
+    .maybeSingle();
+
+  if (error) {
+    console.error('Admin role lookup failed:', error);
+    msg(
+      'authMessage',
+      'Could not verify your account role: ' + error.message,
+      true
+    );
+    return 'student';
+  }
+
+  return String(data?.role || 'student').trim().toLowerCase();
+}
 
     const { data, error } = await db
       .from('profiles')
